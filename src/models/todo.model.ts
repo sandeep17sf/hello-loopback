@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {TodoList, TodoListWithRelations} from './todo-list.model';
 
 @model()
 export class Todo extends Entity {
@@ -34,8 +35,10 @@ export class Todo extends Entity {
   @property({
     type: 'string',
   })
-  remindAtGeo?: string; // latitude,longitude
+  remindAtGeo?: string;
 
+  @belongsTo(() => TodoList)
+  todoListId: number;
 
   constructor(data?: Partial<Todo>) {
     super(data);
@@ -44,6 +47,7 @@ export class Todo extends Entity {
 
 export interface TodoRelations {
   // describe navigational properties here
+  todoList?: TodoListWithRelations;
 }
 
 export type TodoWithRelations = Todo & TodoRelations;
